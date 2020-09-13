@@ -11,8 +11,8 @@ function createSearchLink(id, href, imgUrl) {
     anchor.href = href;
     const img = document.createElement("img");
     img.src = imgUrl;
-    img.width = 34;
-    img.height = 34;
+    img.width = 32;
+    img.height = 32;
     anchor.appendChild(img);
     return anchor;
 }
@@ -24,10 +24,18 @@ function createFlexContainer() {
     return flexContainer;
 }
 
+// function createGridContainer() {
+//     const gridContainer = document.createElement("div");
+//     gridContainer.style.display = "grid";
+//     gridContainer.style.gridTemplateColumns = "auto 1fr";
+//     gridContainer.style.gridTemplateRows = "auto";
+//     return gridContainer;
+// }
+
 function googleMetaSearch(metaSearchAnchors) {
-    var googleLogoElement = document.getElementById("logo");
-    const logoContainer = googleLogoElement.parentElement;
-    const searchAreaContainer = logoContainer.nextSibling;
+    const searchForm = Array.from(document.forms).find(f => f.action.endsWith("/search"));
+    const searchInput = Array.from(searchForm.getElementsByTagName("input")).find(i => i.name === "q");
+    const searchAreaContainer = searchInput.parentElement.parentElement.parentElement;
     
     const searchAreaContainerWrapper = createFlexContainer();
     wrap(searchAreaContainer, searchAreaContainerWrapper);
@@ -55,11 +63,40 @@ function ecosiaMetaSearch(metaSearchAnchors) {
 }
 
 function bingMetaSearch(metaSearchAnchors) {
+    const searchForm = Array.from(document.forms).find(f => f.action.endsWith("/search"));
+    const searchInput = Array.from(searchForm.getElementsByTagName("input")).find(i => i.name === "q");
+    const searchAreaContainer = searchInput.parentElement.parentElement;
 
+    const searchAreaContainerWrapper = createFlexContainer();
+    wrap(searchAreaContainer, searchAreaContainerWrapper);
+    const iconsContainer = createFlexContainer();
+    searchAreaContainerWrapper.appendChild(iconsContainer);
+
+    for (const anchor of metaSearchAnchors) {
+        anchor.style.margin = "auto";
+        anchor.style.padding = "4px 4px 0px 16px";
+        iconsContainer.appendChild(anchor);
+    }
 }
 
 function duckduckgoMetaSearch(metaSearchAnchors) {
+    const searchForm = Array.from(document.forms).find(f => f.action.endsWith("/"));
+    const searchInput = Array.from(searchForm.getElementsByTagName("input")).find(i => i.name === "q");
+    const searchAreaContainer = searchInput.parentElement.parentElement.parentElement;
 
+    searchAreaContainer.style.paddingRight = "unset";
+    const searchAreaContainerWrapper = createFlexContainer();
+    wrap(searchAreaContainer, searchAreaContainerWrapper);
+    //https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Controlling_Ratios_of_Flex_Items_Along_the_Main_Ax
+    searchAreaContainer.style.flex = "1 0 0";
+    const iconsContainer = createFlexContainer();
+    searchAreaContainerWrapper.appendChild(iconsContainer);
+
+    for (const anchor of metaSearchAnchors) {
+        anchor.style.margin = "auto";
+        anchor.style.padding = "4px 4px 0px 16px";
+        iconsContainer.appendChild(anchor);
+    }
 }
 
 const domainConfig = {
@@ -77,7 +114,7 @@ const domainConfig = {
     },
     bing: {
         baseUrl: "https://www.bing.com/search?q=",
-        iconUrl: "https://www.bing.com/favicon.ico",
+        iconUrl: "https://upload.wikimedia.org/wikipedia/commons/0/07/Bing_favicon.svg",
         id: "f54d4772-369a-494b-b8c7-ae9495b9b516",
         setupFunc: bingMetaSearch,
     },
