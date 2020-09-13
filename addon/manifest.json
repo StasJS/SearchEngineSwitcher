@@ -1,27 +1,31 @@
 {
+  "manifest_version": 2,
+  "name": "MetaSearch",
+  "version": "1.0",
 
-    "manifest_version": 2,
-    "name": "MetaSearch",
-    "version": "1.0",
-  
-    "description": "Adds a red border to all webpages matching mozilla.org.",
-  
-    "content_scripts": [
-      {
-        "matches": [
-          "*://*/*"
-        ],
-        "js": ["/content_scripts/index.js"]
-      }
-    ],
+  "description": "TODO",
 
-    "permissions": [
-        "*://duckduckgo.com/search",
-        "*://google.com/search",
-        "*://scholar.google.com/scholar",
-        "*://ecosia.org/search",
-        "*://bing.com/search",
-        "*://bing.com/search"
-    ]
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.duckduckgo.com/search*",
+        "*://*.google.com/search*",
+        "*://*.ecosia.org/search*",
+        "*://*.bing.com/search*"
+      ],
+      "js": ["/content_scripts/index.js"]
+    }
+  ],
 
+  "permissions": [
+    "*://*.duckduckgo.com/search*",
+    "*://*.google.com/search*",
+    "*://*.ecosia.org/search*",
+    "*://*.bing.com/search*"
+  ],
+
+  "browser_action": {
+    "default_title": "MetaSearch",
+    "default_popup": "/popup/index.html"
   }
+}

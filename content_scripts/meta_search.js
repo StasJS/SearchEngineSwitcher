@@ -24,14 +24,6 @@ function createFlexContainer() {
     return flexContainer;
 }
 
-// function createGridContainer() {
-//     const gridContainer = document.createElement("div");
-//     gridContainer.style.display = "grid";
-//     gridContainer.style.gridTemplateColumns = "auto 1fr";
-//     gridContainer.style.gridTemplateRows = "auto";
-//     return gridContainer;
-// }
-
 function googleMetaSearch(metaSearchAnchors) {
     const searchForm = Array.from(document.forms).find(f => f.action.endsWith("/search"));
     const searchInput = Array.from(searchForm.getElementsByTagName("input")).find(i => i.name === "q");
