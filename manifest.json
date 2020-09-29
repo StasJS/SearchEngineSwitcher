@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "MetaSearch",
+  "version": "1.0",
+
+  "description": "TODO",
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.duckduckgo.com/search*",
+        "*://*.google.com/search*",
+        "*://*.ecosia.org/search*",
+        "*://*.bing.com/search*"
+      ],
+      "js": ["/content_scripts/index.js"]
+    }
+  ],
+
+  "permissions": [
+    "*://*.duckduckgo.com/search*",
+    "*://*.google.com/search*",
+    "*://*.ecosia.org/search*",
+    "*://*.bing.com/search*"
+  ],
+
+  "browser_action": {
+    "default_title": "MetaSearch",
+    "default_popup": "/popup/index.html"
+  }
+}
