@@ -37,7 +37,10 @@ module.exports = {
       chunks: ["popup"],
     }),
     new CopyPlugin({
-      patterns: ["manifest.json"],
+      patterns: ["manifest.json", "web-ext.config.js"],
     }),
   ],
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
 };

@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "dev": "webpack -w --progress",
-    "dev:firefox": "concurrently -k \"npm run dev\" \"cd addon && web-ext run\" --restart-tries 20 --restart-after 5000"
+    "dev:firefox": "concurrently -k \"npm run dev\" \"cd addon && web-ext --config=web-ext.config.js run\" --restart-tries 20 --restart-after 5000"
   },
   "author": "",
   "license": "ISC",
