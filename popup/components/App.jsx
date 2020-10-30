@@ -3,9 +3,8 @@ import { h, Component } from "preact";
 
 class App extends Component {
     render() {
-        return <div id="app-root"><h1>Preact Chrome Extension Starter</h1></div>
+        return <h1>Preact Chrome Extension Starter</h1>;
     }
-    
 };
 
 export default App;

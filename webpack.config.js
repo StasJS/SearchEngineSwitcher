@@ -23,17 +23,20 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env"],
-            plugins: [["@babel/plugin-transform-react-jsx", { pragma: "h" }]],
+            plugins: [
+              ["@babel/plugin-transform-react-jsx", { pragma: "h", pragmaFrag: "Fragment" }]
+            ],
           },
         },
       },
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    //new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "MetaSearch",
       filename: "popup/index.html",
+      template: "./popup/index.html",
       chunks: ["popup"],
     }),
     new CopyPlugin({
