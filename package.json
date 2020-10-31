@@ -13,13 +13,8 @@
   "license": "ISC",
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run lint"
     }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-        "eslint --fix"
-    ]
   },
   "devDependencies": {
     "@types/webpack-env": "^1.15.3",
