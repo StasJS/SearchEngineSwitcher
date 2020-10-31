@@ -1,5 +1,5 @@
 module.exports = {
-    run: {
-        firefox: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe",
-    },
+	run: {
+		firefox: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe"
+	}
 };
