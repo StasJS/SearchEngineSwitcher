@@ -1,12 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: {
     content_scripts: "./content_scripts/meta_search.js",
-    popup: "./popup/popup.jsx",
+    popup: "./popup/popup.tsx",
   },
   mode: "development",
   devtool: "source-map-inline",
@@ -17,22 +16,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         exclude: /(node_modules)/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: [
-              ["@babel/plugin-transform-react-jsx", { pragma: "h", pragmaFrag: "Fragment" }]
-            ],
-          },
+          loader: "ts-loader",
         },
       },
     ],
   },
   plugins: [
-    //new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "MetaSearch",
       filename: "popup/index.html",
@@ -44,6 +36,6 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".ts", ".tsx"],
   },
 };
