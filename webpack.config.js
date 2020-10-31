@@ -5,13 +5,13 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry: {
-		content_scripts: "./content_scripts/meta_search.js",
-		popup: "./popup/popup.tsx"
+		content_scripts: "./src/content_scripts/meta_search.js",
+		popup: "./src/popup/popup.tsx"
 	},
 	mode: "development",
 	devtool: "source-map-inline",
 	output: {
-		path: path.resolve(__dirname, "addon"),
+		path: path.resolve(__dirname, "build"),
 		filename: "[name]/index.js"
 	},
 	module: {
@@ -29,7 +29,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			title: "MetaSearch",
 			filename: "popup/index.html",
-			template: "./popup/index.html",
+			template: "./src/popup/index.html",
 			chunks: ["popup"]
 		}),
 		new CopyPlugin({
