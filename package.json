@@ -37,9 +37,9 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
     "preact": "^10.5.5",
     "preact-compat": "^3.19.0",
-    "preact-redux": "^2.1.0",
-    "redux": "^4.0.5"
+    "preact-redux": "^2.1.0"
   }
 }
