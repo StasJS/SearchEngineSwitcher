@@ -1,4 +1,4 @@
-export interface SearchEngine {
+export interface SearchEngineConfig {
 	baseUrl: URL;
 	iconUrl: URL;
 	id: string;
@@ -15,9 +15,7 @@ export type SearchEngineName =
 	| typeof Bing
 	| typeof DuckDuckGo;
 
-type SearchEngines = Record<SearchEngineName, SearchEngine>;
-
-const data: SearchEngines = {
+const config: Record<SearchEngineName, SearchEngineConfig> = {
 	GOOGLE: {
 		baseUrl: new URL("https://google.com/search?q="),
 		iconUrl: new URL("https://google.com/favicon.ico"),
@@ -42,4 +40,4 @@ const data: SearchEngines = {
 	}
 };
 
-export default data;
+export default config;

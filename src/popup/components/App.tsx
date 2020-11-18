@@ -1,10 +1,13 @@
-import "preact/debug";
-import { h, Component } from "preact";
+import React from "react";
+import SearchEngineList from "../features/searchEngines/SearchEngineList";
 
-class App extends Component {
-	render() {
-		return <h1>Preact Chrome Extension Starter</h1>;
-	}
-}
+const App: React.FunctionComponent = () => {
+	return (
+		<>
+			<h1>React Chrome Extension Starter</h1>
+			<SearchEngineList />
+		</>
+	);
+};
 
 export default App;

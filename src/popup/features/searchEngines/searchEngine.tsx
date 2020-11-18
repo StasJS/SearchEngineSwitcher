@@ -1,11 +1,12 @@
-import { FunctionalComponent, h } from "preact";
+import React from "react";
+import { SearchEngineName } from "../../definitions/searchEngines";
 
 export interface Props {
-	onClick?: (name: string) => void;
+	onClick?: (name: SearchEngineName) => void;
 	enabled: boolean;
 	name: string;
 }
-const SearchEngine = (props: Props): FunctionalComponent => {
+const SearchEngine: React.FunctionComponent<Props> = (props) => {
 	return <li>{props.name}</li>;
 };
 
