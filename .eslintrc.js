@@ -27,6 +27,7 @@ module.exports = {
 			{
 				endOfLine: "auto"
 			}
-		]
+		],
+		"react/jsx-no-bind": "off"
 	}
 };

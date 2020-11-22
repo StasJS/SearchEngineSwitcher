@@ -1,12 +1,13 @@
 import React from "react";
 import SearchEngineList from "../features/searchEngines/SearchEngineList";
+import { Grommet } from "grommet";
 
 const App: React.FunctionComponent = () => {
 	return (
-		<>
-			<h1>React Chrome Extension Starter</h1>
+		<Grommet plain>
+			<h1>React App</h1>
 			<SearchEngineList />
-		</>
+		</Grommet>
 	);
 };
 
