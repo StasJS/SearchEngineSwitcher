@@ -5,7 +5,7 @@ import {
 	Ecosia,
 	Google,
 	SearchEngineName
-} from "../../definitions/searchEngines";
+} from "../../../searchEngineConfig";
 
 export interface SearchEngineStatus {
 	enabled: boolean;
@@ -13,7 +13,7 @@ export interface SearchEngineStatus {
 
 export type SearchEngineState = {
 	settings: Record<SearchEngineName, SearchEngineStatus>;
-	order: Set<SearchEngineName>;
+	order: Array<SearchEngineName>;
 };
 
 const initialState: SearchEngineState = {
@@ -31,7 +31,7 @@ const initialState: SearchEngineState = {
 			enabled: true
 		}
 	},
-	order: new Set([Google, DuckDuckGo, Bing, Ecosia])
+	order: [Google, DuckDuckGo, Bing, Ecosia]
 };
 
 const searchEnginesSlice = createSlice({

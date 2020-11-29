@@ -5,7 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
 	entry: {
-		content_scripts: "./src/content_scripts/meta_search.js",
+		content_scripts: "./src/content_scripts/meta_search.ts",
 		popup: "./src/popup/popup.tsx"
 	},
 	mode: "development",

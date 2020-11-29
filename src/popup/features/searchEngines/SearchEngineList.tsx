@@ -8,7 +8,7 @@ import config, {
 	Ecosia,
 	Google,
 	SearchEngineName
-} from "../../definitions/searchEngines";
+} from "../../../searchEngineConfig";
 import { RootState } from "../../rootReducer";
 import { SearchEngineStatus, toggleEnablement } from "./searchEnginesSlice";
 
