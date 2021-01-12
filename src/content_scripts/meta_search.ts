@@ -28,11 +28,13 @@ function wrap(el: HTMLElement, wrapper: HTMLElement) {
 function createSearchLink(
 	id: string,
 	href: string,
+	title: string,
 	imgUrl: URL
 ): HTMLAnchorElement {
 	const anchor = document.createElement("a");
 	anchor.id = id;
 	anchor.href = href;
+	anchor.title = title;
 	const img = document.createElement("img");
 	img.src = imgUrl.href;
 	img.width = 32;
@@ -217,6 +219,7 @@ store.ready().then(() => {
 					return createSearchLink(
 						otherConfig.id,
 						`${otherConfig.baseUrl}${searchString}`,
+						`Search '${searchString}' on ${otherConfig.displayName}`,
 						otherConfig.iconUrl
 					);
 				});
