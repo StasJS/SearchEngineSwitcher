@@ -3,7 +3,7 @@
   "name": "MetaSearch",
   "version": "1.0",
 
-  "description": "TODO",
+  "description": "Helps you switch between search engines quickly and easily.",
 
   "content_scripts": [
     {
@@ -31,5 +31,10 @@
 
   "background": {
     "scripts": ["/background/index.js"]
+  },
+
+  "icons": {
+    "48": "logo-48.png",
+    "96": "logo-96.png"
   }
 }

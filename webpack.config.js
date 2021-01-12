@@ -2,46 +2,63 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
 
-module.exports = {
-	entry: {
-		content_scripts: "./src/content_scripts/meta_search.ts",
-		popup: "./src/popup/popup.tsx",
-		background: "./src/background/background.ts"
-	},
-	mode: "development",
-	devtool: "source-map-inline",
-	output: {
-		path: path.resolve(__dirname, "build"),
-		filename: "[name]/index.js"
-	},
-	module: {
-		rules: [
-			{
-				test: /\.tsx?$/,
-				exclude: /(node_modules)/,
-				use: {
-					loader: "ts-loader"
-				}
-			},
-			{
-				test: /\.css$/i,
-				use: ["style-loader", "css-loader"]
-			}
-		]
-	},
-	plugins: [
-		new HtmlWebpackPlugin({
-			title: "MetaSearch",
-			filename: "popup/index.html",
-			template: "./src/popup/index.html",
-			chunks: ["popup"]
-		}),
-		new CopyPlugin({
-			patterns: ["manifest.json", "web-ext.config.js"]
-		})
-	],
-	resolve: {
-		extensions: [".js", ".ts", ".tsx"]
+module.exports = (_env, argv) => {
+	const mode = argv.mode || "development";
+	const toCopyPatterns = ["manifest.json", "logo-48.png", "logo-96.png"];
+	if (mode === "development") {
+		toCopyPatterns.push("web-ext.config.js");
 	}
+
+	const config = {
+		entry: {
+			content_scripts: "./src/content_scripts/meta_search.ts",
+			popup: "./src/popup/popup.tsx",
+			background: "./src/background/background.ts"
+		},
+		mode,
+		devtool: mode === "production" ? "none" : "source-map-inline",
+		output: {
+			path: path.resolve(__dirname, "build"),
+			filename: "[name]/index.js"
+		},
+		module: {
+			rules: [
+				{
+					test: /\.tsx?$/,
+					exclude: /(node_modules)/,
+					use: {
+						loader: "ts-loader"
+					}
+				},
+				{
+					test: /\.css$/i,
+					use: ["style-loader", "css-loader"]
+				}
+			]
+		},
+		optimization: {
+			minimize: false
+		},
+		plugins: [
+			new HtmlWebpackPlugin({
+				title: "MetaSearch",
+				filename: "popup/index.html",
+				template: "./src/popup/index.html",
+				chunks: ["popup"]
+			}),
+			new CopyPlugin({
+				patterns: toCopyPatterns
+			}),
+			new webpack.optimize.LimitChunkCountPlugin({
+				maxChunks: 1
+			})
+		],
+		resolve: {
+			extensions: [".js", ".ts", ".tsx"]
+		}
+	};
+
+	return config;
 };
