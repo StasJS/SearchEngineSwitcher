@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import searchEnginesReducer from "./features/searchEngines/searchEnginesSlice";
+import searchEnginesReducer from "./popup/features/searchEngines/searchEnginesSlice";
 
 const rootReducer = combineReducers({
 	searchEngines: searchEnginesReducer

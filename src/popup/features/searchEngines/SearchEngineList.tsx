@@ -9,7 +9,7 @@ import config, {
 	Google,
 	SearchEngineName
 } from "../../../searchEngineConfig";
-import { RootState } from "../../rootReducer";
+import { RootState } from "../../../rootReducer";
 import { SearchEngineStatus, toggleEnablement } from "./searchEnginesSlice";
 
 interface Props {

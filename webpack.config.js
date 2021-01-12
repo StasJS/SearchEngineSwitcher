@@ -6,7 +6,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
 	entry: {
 		content_scripts: "./src/content_scripts/meta_search.ts",
-		popup: "./src/popup/popup.tsx"
+		popup: "./src/popup/popup.tsx",
+		background: "./src/background/background.ts"
 	},
 	mode: "development",
 	devtool: "source-map-inline",

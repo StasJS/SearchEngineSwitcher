@@ -27,5 +27,9 @@
   "browser_action": {
     "default_title": "MetaSearch",
     "default_popup": "/popup/index.html"
+  },
+
+  "background": {
+    "scripts": ["/background/index.js"]
   }
 }

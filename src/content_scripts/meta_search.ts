@@ -5,11 +5,10 @@ import config, {
 	Ecosia,
 	Google,
 	SearchEngineConfig,
-	SearchEngineName,
-	searchEngineNames
+	SearchEngineName
 } from "../searchEngineConfig";
-
-import { load } from "redux-localstorage-simple";
+import { Store } from "webext-redux";
+import { RootState } from "../rootReducer";
 
 function assertExists<T extends HTMLElement>(
 	element: T | null | undefined,
@@ -161,6 +160,7 @@ function duckduckgoMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 }
 
 function matchConfigOnHostName(
+	searchEngineNames: SearchEngineName[],
 	currentHostName: string
 ): [SearchEngineName, SearchEngineConfig] | null {
 	const trimWWWprefix = (s: string) => s.replace(/^www\./, "");
@@ -191,35 +191,43 @@ function injectHtml(
 	}
 }
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-try {
-	if (urlParams.has("q")) {
-		const searchString = urlParams.get("q");
-		const match = matchConfigOnHostName(window.location.hostname);
-		if (match) {
-			const [currentSearchEngine] = match;
-			const otherNames = Array.from(searchEngineNames).filter(
-				(se) => se !== currentSearchEngine
-			);
-			const metaSearchAnchors = otherNames.map((otherName) => {
-				const otherConfig = config[otherName];
-				return createSearchLink(
-					otherConfig.id,
-					`${otherConfig.baseUrl}${searchString}`,
-					otherConfig.iconUrl
-				);
-			});
-			injectHtml(currentSearchEngine, metaSearchAnchors);
-		} else {
-			console.error(`Could not match ${window.location.hostname} to config`);
-		}
-	} else {
-		console.error("URL parameters does not contain 'q'");
-	}
-} catch (e) {
-	console.error(e);
-}
+const store = new Store<RootState>();
+store.ready().then(() => {
+	const searchEngines = store.getState().searchEngines;
+	const activeSearchEngines = searchEngines.order.filter(
+		(se) => searchEngines.settings[se].enabled
+	);
 
-const x = load();
-console.log(x);
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	try {
+		if (urlParams.has("q")) {
+			const searchString = urlParams.get("q");
+			const match = matchConfigOnHostName(
+				activeSearchEngines,
+				window.location.hostname
+			);
+			if (match) {
+				const [currentSearchEngine] = match;
+				const otherNames = activeSearchEngines.filter(
+					(se) => se !== currentSearchEngine
+				);
+				const metaSearchAnchors = otherNames.map((otherName) => {
+					const otherConfig = config[otherName];
+					return createSearchLink(
+						otherConfig.id,
+						`${otherConfig.baseUrl}${searchString}`,
+						otherConfig.iconUrl
+					);
+				});
+				injectHtml(currentSearchEngine, metaSearchAnchors);
+			} else {
+				console.error(`Could not match ${window.location.hostname} to config`);
+			}
+		} else {
+			console.error("URL parameters does not contain 'q'");
+		}
+	} catch (e) {
+		console.error(e);
+	}
+});
