@@ -11,7 +11,7 @@
     "release:create-dirs": "mkdirp release release/chrome release/firefox",
     "release:clean": "rimraf release/*",
     "release:build": "webpack --mode=production",
-    "release:chrome": "cross-zip ./build release/chrome/extension.zip",
+    "release:chrome": "node zip-wrapper.js --out release/chrome/extension.zip --in build/",
     "release:firefox": "run-s release:firefox:extension release:firefox:source",
     "release:firefox:extension": "cd build && web-ext build && cd .. && mv ./build/web-ext-artifacts/*.zip ./release/firefox/",
     "release:firefox:source": "node zip-wrapper.js  --out release/firefox/source.zip --in . --exclude .git* release node_modules build .prettier*"
