@@ -2,6 +2,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = (_env, argv) => {
@@ -9,6 +10,25 @@ module.exports = (_env, argv) => {
 	const toCopyPatterns = ["manifest.json", "logo-48.png", "logo-96.png"];
 	if (mode === "development") {
 		toCopyPatterns.push("web-ext.config.js");
+	}
+
+	const plugins = [
+		new HtmlWebpackPlugin({
+			title: "MetaSearch",
+			filename: "popup/index.html",
+			template: "./src/popup/index.html",
+			chunks: ["popup"]
+		}),
+		new CopyPlugin({
+			patterns: toCopyPatterns
+		}),
+		new webpack.optimize.LimitChunkCountPlugin({
+			maxChunks: 1
+		})
+	];
+
+	if (mode === "production") {
+		plugins.push(new CleanWebpackPlugin());
 	}
 
 	const config = {
@@ -41,20 +61,7 @@ module.exports = (_env, argv) => {
 		optimization: {
 			minimize: false
 		},
-		plugins: [
-			new HtmlWebpackPlugin({
-				title: "MetaSearch",
-				filename: "popup/index.html",
-				template: "./src/popup/index.html",
-				chunks: ["popup"]
-			}),
-			new CopyPlugin({
-				patterns: toCopyPatterns
-			}),
-			new webpack.optimize.LimitChunkCountPlugin({
-				maxChunks: 1
-			})
-		],
+		plugins,
 		resolve: {
 			extensions: [".js", ".ts", ".tsx"]
 		}
