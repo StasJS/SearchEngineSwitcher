@@ -5,8 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.{js,ts,tsx} --fix",
-    "dev:build": "webpack -w --progress",
-    "dev:firefox": "concurrently -k \"npm run dev\" \"web-ext --config=web-ext.config.js run\" --restart-tries 3 --restart-after 1000",
+    "dev:build": "webpack --mode=development",
+    "dev:watch": "webpack -w --progress --mode=development",
+    "dev:firefox": "concurrently -k \"npm run dev:watch\" \"web-ext --config=web-ext.config.js run\" --restart-tries 3 --restart-after 1000",
     "release": "run-s release:clean release:create-dirs release:build release:chrome release:firefox",
     "release:create-dirs": "mkdirp release release/chrome release/firefox",
     "release:clean": "rimraf release/*",
