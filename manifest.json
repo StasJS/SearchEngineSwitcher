@@ -8,7 +8,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.duckduckgo.com/search*",
+        "*://*.duckduckgo.com/*",
         "*://*.google.com/search*",
         "*://*.ecosia.org/search*",
         "*://*.bing.com/search*"
@@ -18,7 +18,7 @@
   ],
 
   "permissions": [
-    "*://*.duckduckgo.com/search*",
+    "*://*.duckduckgo.com/*",
     "*://*.google.com/search*",
     "*://*.ecosia.org/search*",
     "*://*.bing.com/search*"

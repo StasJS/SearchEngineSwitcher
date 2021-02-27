@@ -204,7 +204,7 @@ store.ready().then(() => {
 	const urlParams = new URLSearchParams(queryString);
 	try {
 		if (urlParams.has("q")) {
-			const searchString = urlParams.get("q");
+			const searchString = urlParams.get("q") || "";
 			const match = matchConfigOnHostName(
 				activeSearchEngines,
 				window.location.hostname

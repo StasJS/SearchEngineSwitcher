@@ -38,7 +38,7 @@ const config: Record<SearchEngineName, SearchEngineConfig> = {
 		displayName: "Bing"
 	},
 	DUCKDUCKGO: {
-		baseUrl: new URL("https://www.duckduckgo.com/search?q="),
+		baseUrl: new URL("https://www.duckduckgo.com/?q="),
 		iconUrl: new URL("https://duckduckgo.com/favicon.ico"),
 		id: "f3dfab76-5b65-4604-95ef-9e3cb7a8a59f",
 		displayName: "DuckDuckGo"
