@@ -9,7 +9,7 @@
     "dev:firefox": "concurrently -k \"npm run dev:watch\" \"web-ext --config=web-ext.config.js run\" --restart-tries 3 --restart-after 1000",
     "dev:release": "run-s release:build release:lint release",
     "ci:build": "npm run release:build",
-    "ci:test": "release:lint",
+    "ci:test": "npm run release:lint",
     "ci:release": "npm run release",
     "release:build": "webpack --mode=production",
     "release:lint": "npm run lint && cd build && web-ext lint && cd ..",
