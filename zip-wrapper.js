@@ -28,5 +28,5 @@ zipdir(argv.in, {
 			console.log(`Including ${p}`);
 		}
 		return !shouldExclude;
-	}
+	},
 });

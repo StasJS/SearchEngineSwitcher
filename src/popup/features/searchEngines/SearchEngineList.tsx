@@ -12,23 +12,14 @@ interface Props {
 	toggleEnablement: (name: SearchEngineName) => void;
 }
 
-const SearchEngineList: React.FunctionComponent<Props> = ({
-	searchEngines,
-	toggleEnablement
-}) => {
+const SearchEngineList: React.FunctionComponent<Props> = ({ searchEngines, toggleEnablement }: Props) => {
 	return (
 		<Box>
-			{searchEngines.map(
-				([name, status]: [SearchEngineName, SearchEngineStatus]) => {
-					return (
-						<SearchEngineItem
-							name={name}
-							status={status}
-							toggle={() => toggleEnablement(name)}
-						/>
-					);
-				}
-			)}
+			{searchEngines.map(([name, status]: [SearchEngineName, SearchEngineStatus]) => {
+				return (
+					<SearchEngineItem key={name} name={name} status={status} toggle={() => toggleEnablement(name)} />
+				);
+			})}
 		</Box>
 	);
 };
@@ -38,15 +29,12 @@ const keys = Object.keys as <T>(o: T) => Extract<keyof T, string>[];
 const selectSearchEngines = createSelector(
 	(state: RootState) => state.searchEngines.settings,
 	(searchEngines): [SearchEngineName, SearchEngineStatus][] => {
-		return keys(searchEngines).map((se: SearchEngineName) => [
-			se,
-			searchEngines[se]
-		]);
+		return keys(searchEngines).map((se: SearchEngineName) => [se, searchEngines[se]]);
 	}
 );
 
 const mapStateToProps = (state: RootState) => ({
-	searchEngines: selectSearchEngines(state)
+	searchEngines: selectSearchEngines(state),
 });
 
 export default connect(mapStateToProps, { toggleEnablement })(SearchEngineList);

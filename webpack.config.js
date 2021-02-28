@@ -17,14 +17,14 @@ module.exports = (_env, argv) => {
 			title: "MetaSearch",
 			filename: "popup/index.html",
 			template: "./src/popup/index.html",
-			chunks: ["popup"]
+			chunks: ["popup"],
 		}),
 		new CopyPlugin({
-			patterns: toCopyPatterns
+			patterns: toCopyPatterns,
 		}),
 		new webpack.optimize.LimitChunkCountPlugin({
-			maxChunks: 1
-		})
+			maxChunks: 1,
+		}),
 	];
 
 	if (mode === "production") {
@@ -35,13 +35,13 @@ module.exports = (_env, argv) => {
 		entry: {
 			content_scripts: "./src/content_scripts/meta_search.ts",
 			popup: "./src/popup/popup.tsx",
-			background: "./src/background/background.ts"
+			background: "./src/background/background.ts",
 		},
 		mode,
 		devtool: mode === "production" ? "none" : "source-map-inline",
 		output: {
 			path: path.resolve(__dirname, "build"),
-			filename: "[name]/index.js"
+			filename: "[name]/index.js",
 		},
 		module: {
 			rules: [
@@ -49,22 +49,22 @@ module.exports = (_env, argv) => {
 					test: /\.tsx?$/,
 					exclude: /(node_modules)/,
 					use: {
-						loader: "ts-loader"
-					}
+						loader: "ts-loader",
+					},
 				},
 				{
 					test: /\.css$/i,
-					use: ["style-loader", "css-loader"]
-				}
-			]
+					use: ["style-loader", "css-loader"],
+				},
+			],
 		},
 		optimization: {
-			minimize: false
+			minimize: false,
 		},
 		plugins,
 		resolve: {
-			extensions: [".js", ".ts", ".tsx"]
-		}
+			extensions: [".js", ".ts", ".tsx"],
+		},
 	};
 
 	return config;

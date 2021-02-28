@@ -1,19 +1,9 @@
 /* eslint-disable no-console */
-import config, {
-	Bing,
-	DuckDuckGo,
-	Ecosia,
-	Google,
-	SearchEngineConfig,
-	SearchEngineName
-} from "../searchEngineConfig";
+import config, { Bing, DuckDuckGo, Ecosia, Google, SearchEngineConfig, SearchEngineName } from "../searchEngineConfig";
 import { Store } from "webext-redux";
 import { RootState } from "../rootReducer";
 
-function assertExists<T extends HTMLElement>(
-	element: T | null | undefined,
-	errorMessage: string
-): T {
+function assertExists<T extends HTMLElement>(element: T | null | undefined, errorMessage: string): T {
 	if (!element) {
 		throw new Error(errorMessage);
 	}
@@ -25,12 +15,7 @@ function wrap(el: HTMLElement, wrapper: HTMLElement) {
 	wrapper.appendChild(el);
 }
 
-function createSearchLink(
-	id: string,
-	href: string,
-	title: string,
-	imgUrl: URL
-): HTMLAnchorElement {
+function createSearchLink(id: string, href: string, title: string, imgUrl: URL): HTMLAnchorElement {
 	const anchor = document.createElement("a");
 	anchor.id = id;
 	anchor.href = href;
@@ -56,9 +41,7 @@ function googleMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 		"Cannot find Google search form"
 	);
 	const searchInput = assertExists(
-		Array.from(searchForm.getElementsByTagName("input")).find(
-			(i) => i.name === "q"
-		),
+		Array.from(searchForm.getElementsByTagName("input")).find((i) => i.name === "q"),
 		"Cannot find Google search input"
 	);
 	const searchAreaContainer = assertExists(
@@ -82,9 +65,7 @@ function ecosiaMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 		"Cannot find Ecosia search form"
 	);
 	const searchInput = assertExists(
-		Array.from(searchForm.getElementsByTagName("input")).find(
-			(i) => i.name === "q"
-		),
+		Array.from(searchForm.getElementsByTagName("input")).find((i) => i.name === "q"),
 		"Cannot find Ecosia search input"
 	);
 	const searchAreaContainer = assertExists(
@@ -108,9 +89,7 @@ function bingMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 		"Cannot find Bing search form"
 	);
 	const searchInput = assertExists(
-		Array.from(searchForm.getElementsByTagName("input")).find(
-			(i) => i.name === "q"
-		),
+		Array.from(searchForm.getElementsByTagName("input")).find((i) => i.name === "q"),
 		"Cannot find Bing search input"
 	);
 	const searchAreaContainer = assertExists(
@@ -136,9 +115,7 @@ function duckduckgoMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 		"Cannot find DuckDuckGo search form"
 	);
 	const searchInput = assertExists(
-		Array.from(searchForm.getElementsByTagName("input")).find(
-			(i) => i.name === "q"
-		),
+		Array.from(searchForm.getElementsByTagName("input")).find((i) => i.name === "q"),
 		"Cannot find DuckDuckGo search input"
 	);
 	const searchAreaContainer = assertExists(
@@ -167,9 +144,7 @@ function matchConfigOnHostName(
 ): [SearchEngineName, SearchEngineConfig] | null {
 	const trimWWWprefix = (s: string) => s.replace(/^www\./, "");
 	const match = Array.from(searchEngineNames).find(
-		(s) =>
-			trimWWWprefix(config[s].baseUrl.hostname) ===
-			trimWWWprefix(currentHostName)
+		(s) => trimWWWprefix(config[s].baseUrl.hostname) === trimWWWprefix(currentHostName)
 	);
 	if (!match) {
 		return null;
@@ -177,10 +152,7 @@ function matchConfigOnHostName(
 	return [match, config[match]];
 }
 
-function injectHtml(
-	searchEngine: SearchEngineName,
-	anchors: HTMLAnchorElement[]
-) {
+function injectHtml(searchEngine: SearchEngineName, anchors: HTMLAnchorElement[]) {
 	switch (searchEngine) {
 		case Google:
 			return googleMetaSearch(anchors);
@@ -196,24 +168,17 @@ function injectHtml(
 const store = new Store<RootState>();
 store.ready().then(() => {
 	const searchEngines = store.getState().searchEngines;
-	const activeSearchEngines = searchEngines.order.filter(
-		(se) => searchEngines.settings[se].enabled
-	);
+	const activeSearchEngines = searchEngines.order.filter((se) => searchEngines.settings[se].enabled);
 
 	const queryString = window.location.search;
 	const urlParams = new URLSearchParams(queryString);
 	try {
 		if (urlParams.has("q")) {
 			const searchString = urlParams.get("q") || "";
-			const match = matchConfigOnHostName(
-				activeSearchEngines,
-				window.location.hostname
-			);
+			const match = matchConfigOnHostName(activeSearchEngines, window.location.hostname);
 			if (match) {
 				const [currentSearchEngine] = match;
-				const otherNames = activeSearchEngines.filter(
-					(se) => se !== currentSearchEngine
-				);
+				const otherNames = activeSearchEngines.filter((se) => se !== currentSearchEngine);
 				const metaSearchAnchors = otherNames.map((otherName) => {
 					const otherConfig = config[otherName];
 					return createSearchLink(

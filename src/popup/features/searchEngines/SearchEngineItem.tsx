@@ -15,13 +15,7 @@ const SearchEngineItem = ({ name, status, toggle }: Props): JSX.Element => {
 			checked={status.enabled}
 			key={name}
 			label={
-				<Box
-					direction="row"
-					gap="medium"
-					justify="between"
-					align="center"
-					pad="small"
-				>
+				<Box direction="row" gap="medium" justify="between" align="center" pad="small">
 					<Text>{config[name].displayName}</Text>
 					<Image src={config[name].iconUrl.href} height={32} width={32} />
 				</Box>

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import App from "./components/App";
+import App from "./App";
 import { Store } from "webext-redux";
 
 const store = new Store();

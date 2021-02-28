@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-	Bing,
-	DuckDuckGo,
-	Ecosia,
-	Google,
-	SearchEngineName
-} from "../../../searchEngineConfig";
+import { Bing, DuckDuckGo, Ecosia, Google, SearchEngineName } from "../../../searchEngineConfig";
 
 export interface SearchEngineStatus {
 	enabled: boolean;
@@ -19,19 +13,19 @@ export type SearchEngineState = {
 const initialState: SearchEngineState = {
 	settings: {
 		GOOGLE: {
-			enabled: true
+			enabled: true,
 		},
 		BING: {
-			enabled: true
+			enabled: true,
 		},
 		ECOSIA: {
-			enabled: true
+			enabled: true,
 		},
 		DUCKDUCKGO: {
-			enabled: true
-		}
+			enabled: true,
+		},
 	},
-	order: [Google, DuckDuckGo, Bing, Ecosia]
+	order: [Google, DuckDuckGo, Bing, Ecosia],
 };
 
 const searchEnginesSlice = createSlice({
@@ -39,10 +33,9 @@ const searchEnginesSlice = createSlice({
 	initialState,
 	reducers: {
 		toggleEnablement(state, action: PayloadAction<SearchEngineName>) {
-			state.settings[action.payload].enabled = !state.settings[action.payload]
-				.enabled;
-		}
-	}
+			state.settings[action.payload].enabled = !state.settings[action.payload].enabled;
+		},
+	},
 });
 
 export const { toggleEnablement } = searchEnginesSlice.actions;
