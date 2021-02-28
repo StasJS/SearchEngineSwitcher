@@ -28,7 +28,7 @@ jobs:
         run: npm run ci:build
       - name: Test
         run: npm run ci:test
-      - name: Upload Build Artefact
+      - name: Upload Build Artifact
         uses: actions/upload-artifact@v2
         with:
           name: build
@@ -41,7 +41,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download Build Artefact
+      - name: Download Build Artifact
         uses: actions/download-artifact@v2
         with:
           name: build
@@ -50,10 +50,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: Create Release Artefacts
+      - name: Create Release Artifacts
         run: npm run ci:release
-      - name: Upload Release Artefacts
-        uses: actions/upload-artefact@v2
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: release
           path: release/
