@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "MetaSearch",
+  "version": "1.0.0",
+
+  "description": "Helps you switch between search engines quickly and easily.",
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.duckduckgo.com/*",
+        "*://*.google.com/search*",
+        "*://*.ecosia.org/search*",
+        "*://*.bing.com/search*"
+      ],
+      "run_at": "document_end",
+      "js": ["/content_scripts/index.js"]
+    }
+  ],
+
+  "permissions": [
+    "*://*.duckduckgo.com/*",
+    "*://*.google.com/search*",
+    "*://*.ecosia.org/search*",
+    "*://*.bing.com/search*",
+    "storage"
+  ],
+
+  "browser_action": {
+    "default_title": "MetaSearch",
+    "default_popup": "/popup/index.html"
+  },
+
+  "background": {
+    "scripts": ["/background/index.js"]
+  },
+
+  "icons": {
+    "48": "logo-48.png",
+    "96": "logo-96.png"
+  }
+}
