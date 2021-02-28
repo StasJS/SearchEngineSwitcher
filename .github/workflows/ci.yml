@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_and_test:
+  build_test_release:
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -28,28 +28,11 @@ jobs:
         run: npm run ci:build
       - name: Test
         run: npm run ci:test
-      - name: Upload Build Artifact
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v2
         with:
           name: build
           path: build/
-        
-  generate_release:
-    needs: [build_and_test]
-    runs-on: windows-latest
-  
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Download Build Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build/
-      - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12'
       - name: Create Release Artifacts
         run: npm run ci:release
       - name: Upload Release Artifacts
