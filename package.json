@@ -20,7 +20,7 @@
     "release:chrome": "node zip-wrapper.js --out release/chrome/extension.zip --in build/",
     "release:firefox": "run-s release:firefox:build-ext release:firefox:copy-ext release:firefox:zip-src",
     "release:firefox:build-ext": "cd build && web-ext build --overwrite-dest && cd ..",
-    "release:firefox:copy-ext": "copyfiles -u ./build/web-ext-artifacts/*.zip ./release/firefox/",
+    "release:firefox:copy-ext": "copyfiles -f ./build/web-ext-artifacts/*.zip ./release/firefox/",
     "release:firefox:zip-src": "node zip-wrapper.js  --out release/firefox/source.zip --in . --exclude .git* release node_modules build .prettier*"
   },
   "author": "",
