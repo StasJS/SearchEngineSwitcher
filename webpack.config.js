@@ -7,14 +7,13 @@ const webpack = require("webpack");
 
 module.exports = (_env, argv) => {
 	const mode = argv.mode || "development";
-	const toCopyPatterns = ["manifest.json", "logo-48.png", "logo-96.png"];
+	const toCopyPatterns = ["manifest.json", "resources/logo-48.png", "resources/logo-96.png"];
 	if (mode === "development") {
 		toCopyPatterns.push("web-ext.config.js");
 	}
 
 	const plugins = [
 		new HtmlWebpackPlugin({
-			title: "MetaSearch",
 			filename: "popup/index.html",
 			template: "./src/popup/index.html",
 			chunks: ["popup"],

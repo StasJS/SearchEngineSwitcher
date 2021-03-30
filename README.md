@@ -7,8 +7,13 @@ The following search engines are supported currently:
  - Ecosia
  - Bing
 
-It contains a content_script, responsible for embedding links to the other enabled search engines when the user is browsing on one of the enabled search engines.
-It also contains a popup, where users can toggle which of the supported search engines are enabled.
+It contains a content_script, responsible for embedding links to the other enabled search engines when the user is browsing on one of the enabled search engines. Here's a picture of what the embedded links look like on Google, as an example. The extension adds clickable icons to the other search engines to the right of the search area.
+
+![Embedded links on Google](resources/embedded-links-google.PNG)
+
+The extension also contains a popup, where users can toggle which of the supported search engines are enabled. Here it is in darkmode!
+
+![Popup, darkmode](resources/popup-darkmode.PNG)
 
 ## Local Development
 In order to develop on this extension locally
