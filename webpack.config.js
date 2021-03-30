@@ -33,7 +33,7 @@ module.exports = (_env, argv) => {
 
 	const config = {
 		entry: {
-			content_scripts: "./src/content_scripts/meta_search.ts",
+			content_scripts: "./src/content_scripts/search_engine_switcher.ts",
 			popup: "./src/popup/popup.tsx",
 			background: "./src/background/background.ts",
 		},
