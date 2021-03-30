@@ -9,11 +9,11 @@ const App: React.FunctionComponent = () => {
 	return (
 		<Grommet theme={grommet} themeMode={mediaPreference || "light"}>
 			<Main pad="medium">
-				<Heading level={1} textAlign="center">
-					MetaSearch Config
+				<Heading level={2} textAlign="center">
+					SearchEngineSwitcher Settings
 				</Heading>
 				<article>
-					<Heading level={3}>Select the search engines you&apos;d like to jump between!</Heading>
+					<Heading level={3}>Select the search engines you&apos;d like to be able to jump between!</Heading>
 					<SearchEngineList />
 				</article>
 			</Main>
@@ -23,7 +23,7 @@ const App: React.FunctionComponent = () => {
 						size="small"
 						icon={<Icons.Github />}
 						label={"Check us out on Github"}
-						href="https://github.com/StasJS/MetaSearchExtension/"
+						href="https://github.com/StasJS/SearchEngineSwitcher/"
 					/>
 					<Anchor
 						size="small"

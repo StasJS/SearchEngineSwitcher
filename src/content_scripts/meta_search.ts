@@ -35,7 +35,7 @@ function createFlexContainer() {
 	return flexContainer;
 }
 
-function googleMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
+function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]) {
 	const searchForm = assertExists(
 		Array.from(document.forms).find((f) => f.action.endsWith("/search")),
 		"Cannot find Google search form"
@@ -52,14 +52,14 @@ function googleMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 	const searchAreaContainerWrapper = createFlexContainer();
 	wrap(searchAreaContainer, searchAreaContainerWrapper);
 
-	for (const anchor of metaSearchAnchors) {
+	for (const anchor of searchLinks) {
 		anchor.style.margin = "auto";
 		anchor.style.padding = "4px 4px 0px 16px";
 		searchAreaContainerWrapper.appendChild(anchor);
 	}
 }
 
-function ecosiaMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
+function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
 	const searchForm = assertExists(
 		Array.from(document.forms).find((f) => f.action.endsWith("/search")),
 		"Cannot find Ecosia search form"
@@ -76,14 +76,14 @@ function ecosiaMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 	const searchAreaContainerWrapper = createFlexContainer();
 	wrap(searchAreaContainer, searchAreaContainerWrapper);
 
-	for (const anchor of metaSearchAnchors) {
+	for (const anchor of searchLinks) {
 		anchor.style.margin = "auto";
 		anchor.style.padding = "4px 4px 0px 16px";
 		searchAreaContainerWrapper.appendChild(anchor);
 	}
 }
 
-function bingMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
+function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
 	const searchForm = assertExists(
 		Array.from(document.forms).find((f) => f.action.endsWith("/search")),
 		"Cannot find Bing search form"
@@ -102,14 +102,14 @@ function bingMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 	const iconsContainer = createFlexContainer();
 	searchAreaContainerWrapper.appendChild(iconsContainer);
 
-	for (const anchor of metaSearchAnchors) {
+	for (const anchor of searchLinks) {
 		anchor.style.margin = "auto";
 		anchor.style.padding = "4px 4px 0px 16px";
 		iconsContainer.appendChild(anchor);
 	}
 }
 
-function duckduckgoMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
+function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
 	const searchForm = assertExists(
 		Array.from(document.forms).find((f) => f.action.endsWith("/")),
 		"Cannot find DuckDuckGo search form"
@@ -131,7 +131,7 @@ function duckduckgoMetaSearch(metaSearchAnchors: HTMLAnchorElement[]) {
 	const iconsContainer = createFlexContainer();
 	searchAreaContainerWrapper.appendChild(iconsContainer);
 
-	for (const anchor of metaSearchAnchors) {
+	for (const anchor of searchLinks) {
 		anchor.style.margin = "auto";
 		anchor.style.padding = "4px 4px 0px 16px";
 		iconsContainer.appendChild(anchor);
@@ -152,16 +152,16 @@ function matchConfigOnHostName(
 	return [match, config[match]];
 }
 
-function injectHtml(searchEngine: SearchEngineName, anchors: HTMLAnchorElement[]) {
+function injectHtml(searchEngine: SearchEngineName, searchLinks: HTMLAnchorElement[]) {
 	switch (searchEngine) {
 		case Google:
-			return googleMetaSearch(anchors);
+			return embedHtmlOnGoogle(searchLinks);
 		case Ecosia:
-			return ecosiaMetaSearch(anchors);
+			return embedHtmlOnEcosia(searchLinks);
 		case DuckDuckGo:
-			return duckduckgoMetaSearch(anchors);
+			return embedHtmlOnDDG(searchLinks);
 		case Bing:
-			return bingMetaSearch(anchors);
+			return embedHtmlOnBing(searchLinks);
 	}
 }
 
@@ -179,7 +179,7 @@ store.ready().then(() => {
 			if (match) {
 				const [currentSearchEngine] = match;
 				const otherNames = activeSearchEngines.filter((se) => se !== currentSearchEngine);
-				const metaSearchAnchors = otherNames.map((otherName) => {
+				const searchLinks = otherNames.map((otherName) => {
 					const otherConfig = config[otherName];
 					return createSearchLink(
 						otherConfig.id,
@@ -188,7 +188,7 @@ store.ready().then(() => {
 						otherConfig.iconUrl
 					);
 				});
-				injectHtml(currentSearchEngine, metaSearchAnchors);
+				injectHtml(currentSearchEngine, searchLinks);
 			} else {
 				console.error(`Could not match ${window.location.hostname} to config`);
 			}
