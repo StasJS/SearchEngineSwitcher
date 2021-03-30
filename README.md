@@ -1,4 +1,4 @@
-# MetaSearchExtension
+# SearchEngineSwitcher
 
 This is a web extension, built for Chrome and Firefox, allowing users to more easily switch between search engines by embedding links between them.
 The following search engines are supported currently:
