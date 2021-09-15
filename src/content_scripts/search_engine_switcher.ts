@@ -10,9 +10,9 @@ function assertExists<T extends HTMLElement>(element: T | null | undefined, erro
 	return element;
 }
 
-function wrap(el: HTMLElement, wrapper: HTMLElement) {
-	el.parentNode?.insertBefore(wrapper, el);
-	wrapper.appendChild(el);
+function wrap(intendedChild: HTMLElement, newParent: HTMLElement) {
+	intendedChild.parentNode?.insertBefore(newParent, intendedChild);
+	newParent.appendChild(intendedChild);
 }
 
 function createSearchLink(id: string, href: string, title: string, imgUrl: URL): HTMLAnchorElement {
@@ -60,27 +60,46 @@ function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]) {
 }
 
 function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
-	const searchForm = assertExists(
-		Array.from(document.forms).find((f) => f.action.endsWith("/search")),
-		"Cannot find Ecosia search form"
-	);
-	const searchInput = assertExists(
-		Array.from(searchForm.getElementsByTagName("input")).find((i) => i.name === "q"),
-		"Cannot find Ecosia search input"
-	);
-	const searchAreaContainer = assertExists(
-		searchInput.parentElement?.parentElement,
-		"Cannot find Ecosia search input container"
-	);
+	const getSearchForm = () => Array.from(document.forms).find((f) => f.action.endsWith("/search"));
 
-	const searchAreaContainerWrapper = createFlexContainer();
-	wrap(searchAreaContainer, searchAreaContainerWrapper);
+	const mutationObserver = new MutationObserver((mutationsList) => {
+		const searchForm = getSearchForm();
+		for (const mutation of mutationsList) {
+			if (mutation.type === "childList" && searchForm?.parentElement?.contains(mutation.target)) {
+				applyDOMChanges();
+			}
+		}
+	});
 
-	for (const anchor of searchLinks) {
-		anchor.style.margin = "auto";
-		anchor.style.padding = "4px 4px 0px 16px";
-		searchAreaContainerWrapper.appendChild(anchor);
-	}
+	mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+	const applyDOMChanges = () => {
+		const searchForm = assertExists(getSearchForm(), "Cannot find Ecosia search form");
+
+		const searchInput = assertExists(
+			Array.from(searchForm.getElementsByTagName("input")).find((i) => i.name === "q"),
+			"Cannot find Ecosia search input"
+		);
+		const searchAreaContainer = assertExists(
+			searchInput.parentElement?.parentElement,
+			"Cannot find Ecosia search input container"
+		);
+
+		if (searchAreaContainer.parentElement?.id !== "searchengineswitcher-container") {
+			const searchAreaContainerWrapper = document.createElement("div");
+			searchAreaContainerWrapper.style.display = "inline-flex";
+			searchAreaContainerWrapper.id = "searchengineswitcher-container";
+			wrap(searchAreaContainer, searchAreaContainerWrapper);
+
+			for (const anchor of searchLinks) {
+				anchor.style.margin = "auto";
+				anchor.style.padding = "4px 4px 0px 16px";
+				searchAreaContainerWrapper.appendChild(anchor);
+			}
+		}
+	};
+
+	applyDOMChanges();
 }
 
 function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
