@@ -15,12 +15,12 @@ The extension also contains a popup, where users can toggle which of the support
 
 ![Popup, darkmode](resources/popup-darkmode.PNG)
 
-## Local Development
+## Local Development - Firefox
 In order to develop on this extension locally
  1. Install the npm dependencies via `npm install` or `npm ci`.
- 2. Ensure you have [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/) installed in the directory specified in `web-ext.config.js`. Or, update `web-ext.config.js` to point to your chosen Firefox executable. NB: I will look to improve this step in future.
- 3. Test the extension via `npm run dev:firefox`, which initiates a webpack-watch and invokes `web-ext run`.
- 4. To generate the release artifacts locally, run `npm run dev:release` and look in the newly-created `/release` folder.
+ 2. Test the extension via `npm run dev:firefox`, which initiates a webpack-watch and invokes `web-ext run`. 
+     *  If you'd like to point to a particular version of firefox e.g. Firefox Developer Edition, you can create a file called `.firefox-location` in your root directory containing just the full path to the firefox executable you'd like to use.
+ 3. To generate the release artifacts locally, run `npm run dev:release` and look in the newly-created `/release` folder.
 
 ---
 If you have an issues using the extension, or would like to make a feature request, feel free to raise an issue and I will get to it ASAP!
