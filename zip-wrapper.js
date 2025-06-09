@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-console */
 const zipdir = require("zip-dir");
 const yargs = require("yargs");
 const micromatch = require("micromatch");

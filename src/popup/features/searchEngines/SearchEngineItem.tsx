@@ -1,5 +1,5 @@
 import { CheckBox, Box, Text, Image } from "grommet";
-import React from "react";
+import React, { JSX } from "react";
 import config, { SearchEngineName } from "../../../searchEngineConfig";
 import { SearchEngineStatus } from "./searchEnginesSlice";
 

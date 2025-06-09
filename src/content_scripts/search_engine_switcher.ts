@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import config, { Bing, DuckDuckGo, Ecosia, Google, SearchEngineConfig, SearchEngineName } from "../searchEngineConfig";
 import { Store } from "webext-redux";
 import { RootState } from "../rootReducer";

@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import App from "./App";
 import { Store } from "webext-redux";
@@ -7,11 +7,11 @@ import { Store } from "webext-redux";
 const store = new Store();
 
 store.ready().then(() => {
-	ReactDOM.render(
+	const rootElement = document.getElementById("root")!;
+	const root = createRoot(rootElement);
+	root.render(
 		<Provider store={store}>
 			<App />
-		</Provider>,
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		document.getElementById("root")!
+		</Provider>
 	);
 });
