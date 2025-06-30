@@ -7,7 +7,7 @@
     "lint:fix": "eslint **/*.{js,ts,tsx} --fix",
     "dev:build": "webpack --mode=development",
     "dev:watch": "webpack -w --mode=development",
-    "dev:firefox": "concurrently -k \"npm run dev:watch\" \"web-ext --config=web-ext.config.js run\" --restart-tries 3 --restart-after 1000",
+    "dev:firefox": "concurrently -k \"npm run dev:watch\" \"web-ext run --bc\" --restart-tries 3 --restart-after 1000",
     "dev:release": "run-s release:build release:lint release",
     "ci:build": "npm run release:build",
     "ci:test": "npm run release:lint",
@@ -72,6 +72,6 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
     "styled-components": "^5.3.1",
-    "webext-redux": "^2.1.7"
+    "webext-redux": "^4.0.0"
   }
 }
