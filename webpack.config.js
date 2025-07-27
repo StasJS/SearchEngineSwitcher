@@ -9,7 +9,7 @@ module.exports = (_env, argv) => {
 	const mode = argv.mode || "development";
 	const toCopyPatterns = ["manifest.json", "resources/logo-48.png", "resources/logo-96.png"];
 	if (mode === "development") {
-		toCopyPatterns.push("web-ext.config.js");
+		toCopyPatterns.push("web-ext.config.mjs");
 	}
 
 	const plugins = [
@@ -37,10 +37,11 @@ module.exports = (_env, argv) => {
 			background: "./src/background/background.ts",
 		},
 		mode,
-		devtool: mode === "production" ? "none" : "source-map-inline",
+		devtool: false,
 		output: {
 			path: path.resolve(__dirname, "build"),
 			filename: "[name]/index.js",
+			// hashFunction: "sha256"
 		},
 		module: {
 			rules: [
