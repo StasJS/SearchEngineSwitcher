@@ -1,25 +1,26 @@
 {
-    "compilerOptions": {
-        /* Basic Options */
-        "target": "ES5",
-        "module": "ESNext",
-        "allowJs": true,
-        "jsx": "react",
-        "jsxFactory": "React.createElement",
-        "jsxFragmentFactory": "React.Fragment",                           
+	"extends": "@abhijithvijayan/tsconfig",
+	"compilerOptions": {
+		/* Let Vite control the final JS output */
+		"target": "ESNext",
+		"module": "ESNext",
+		"noEmit": true,
 
-        /* Strict Type-Checking Options */
-        "strict": true,
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"ES2023"
+		],
 
-        /* Additional Checks */
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": false,
-        "noFallthroughCasesInSwitch": true,
+		/* Bundler-specific settings */
+		"moduleResolution": "bundler",
+		"isolatedModules": true,
+		"declaration": false,
 
-        /* Module Resolution Options */
-        "moduleResolution": "node",
-        "esModuleInterop": true
-    },
-    "include": ["src/**/*.tsx", "src/**/*.ts"]
+		/* React JSX transform */
+		"jsx": "react-jsx"
+	},
+	"include": [
+		"source"
+	]
 }
