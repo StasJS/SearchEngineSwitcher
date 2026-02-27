@@ -130,12 +130,19 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
     ) {
       const searchAreaContainerWrapper = document.createElement('div');
       searchAreaContainerWrapper.style.display = 'inline-flex';
+      searchAreaContainerWrapper.style.alignItems = 'center';
+      searchAreaContainerWrapper.style.width = '100%';
       searchAreaContainerWrapper.id = 'searchengineswitcher-container';
       wrap(searchAreaContainer, searchAreaContainerWrapper);
+
+      // Prevent the search bar from shrinking to accommodate icons
+      searchAreaContainer.style.flexShrink = '0';
+      searchAreaContainer.style.flexGrow = '1';
 
       for (const anchor of searchLinks) {
         anchor.style.margin = 'auto';
         anchor.style.padding = '4px 4px 0px 16px';
+        anchor.style.flexShrink = '0';
         searchAreaContainerWrapper.appendChild(anchor);
       }
     }
