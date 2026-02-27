@@ -23,8 +23,23 @@ export async function setStorage<K extends keyof StorageSchema>(
 export async function getAllStorage(): Promise<StorageSchema> {
   const result = await browser.storage.local.get(null);
 
-  return {
-    ...defaultStorage,
-    ...result,
+  // Deep-merge searchEngineSettings so new engines added in later versions
+  // are picked up by existing users (whose stored value would otherwise
+  // completely override the defaults via a shallow spread).
+  const searchEngineSettings: StorageSchema['searchEngineSettings'] = {
+    ...defaultStorage.searchEngineSettings,
+    ...(result.searchEngineSettings as StorageSchema['searchEngineSettings'] | undefined),
   };
+
+  // Append any engines present in the defaults but missing from the stored
+  // order (i.e. engines added in a newer version of the extension).
+  const storedOrder = result.searchEngineOrder as StorageSchema['searchEngineOrder'] | undefined;
+  const newEngines = defaultStorage.searchEngineOrder.filter(
+    (e) => !storedOrder?.includes(e)
+  );
+  const searchEngineOrder: StorageSchema['searchEngineOrder'] = storedOrder
+    ? [...storedOrder, ...newEngines]
+    : defaultStorage.searchEngineOrder;
+
+  return {searchEngineSettings, searchEngineOrder};
 }

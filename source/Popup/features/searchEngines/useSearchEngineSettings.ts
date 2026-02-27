@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {getStorage, setStorage} from '../../../utils/storage';
 import type {SearchEngineName} from '../../../utils/searchEngineConfig';
-import type {SearchEngineStatus} from '../../../types/storage';
+import {defaultStorage, type SearchEngineStatus} from '../../../types/storage';
 
 export interface SearchEngineSettings {
   settings: Record<SearchEngineName, SearchEngineStatus>;
@@ -14,13 +14,8 @@ export function useSearchEngineSettings(): SearchEngineSettings & {
 } {
   const [settings, setSettings] = useState<
     Record<SearchEngineName, SearchEngineStatus>
-  >({
-    GOOGLE: {enabled: true},
-    BING: {enabled: true},
-    ECOSIA: {enabled: true},
-    DUCKDUCKGO: {enabled: true},
-  });
-  const [order, setOrder] = useState<SearchEngineName[]>([]);
+  >(defaultStorage.searchEngineSettings);
+  const [order, setOrder] = useState<SearchEngineName[]>(defaultStorage.searchEngineOrder);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
