@@ -53,6 +53,16 @@ function createFlexContainer() {
   return flexContainer;
 }
 
+function findSearchInput(
+  form: HTMLFormElement
+): HTMLInputElement | HTMLTextAreaElement | undefined {
+  return (
+    form.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+      'input[name="q"], textarea[name="q"]'
+    ) ?? undefined
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Per-engine DOM injection
 // ---------------------------------------------------------------------------
@@ -63,9 +73,7 @@ function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]) {
     'Cannot find Google search form'
   );
   const searchInput = assertExists(
-    Array.from(searchForm.getElementsByTagName('input')).find(
-      (i) => i.name === 'q'
-    ),
+    findSearchInput(searchForm),
     'Cannot find Google search input'
   );
   const searchAreaContainer = assertExists(
@@ -108,9 +116,7 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
     );
 
     const searchInput = assertExists(
-      Array.from(searchForm.getElementsByTagName('input')).find(
-        (i) => i.name === 'q'
-      ),
+      findSearchInput(searchForm),
       'Cannot find Ecosia search input'
     );
     const searchAreaContainer = assertExists(
@@ -144,9 +150,7 @@ function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
     'Cannot find Bing search form'
   );
   const searchInput = assertExists(
-    Array.from(searchForm.getElementsByTagName('input')).find(
-      (i) => i.name === 'q'
-    ),
+    findSearchInput(searchForm),
     'Cannot find Bing search input'
   );
   const searchAreaContainer = assertExists(
@@ -172,9 +176,7 @@ function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
     'Cannot find DuckDuckGo search form'
   );
   const searchInput = assertExists(
-    Array.from(searchForm.getElementsByTagName('input')).find(
-      (i) => i.name === 'q'
-    ),
+    findSearchInput(searchForm),
     'Cannot find DuckDuckGo search input'
   );
   const searchAreaContainer = assertExists(
