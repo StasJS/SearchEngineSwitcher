@@ -17,7 +17,7 @@ export const defaultStorage: StorageSchema = {
     ECOSIA: {enabled: true},
     DUCKDUCKGO: {enabled: true},
     BRAVESEARCH: {enabled: true},
-    YANDEX: {enabled: true},
+    YANDEX: {enabled: false},
   },
   searchEngineOrder: [Google, DuckDuckGo, Bing, Ecosia, BraveSearch, Yandex],
 };
