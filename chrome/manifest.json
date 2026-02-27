@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "SearchEngineSwitcher",
+  "version": "2.0.0",
+  "icons": {
+    "16": "assets/icons/favicon-16.png",
+    "32": "assets/icons/favicon-32.png",
+    "48": "assets/icons/favicon-48.png",
+    "128": "assets/icons/favicon-128.png"
+  },
+  "description": "Helps you switch between search engines quickly and easily.",
+  "homepage_url": "https://github.com/StasJS/SearchEngineSwitcher/",
+  "short_name": "SearchEngineSwitcher",
+  "permissions": [
+    "storage"
+  ],
+  "optional_permissions": [],
+  "host_permissions": [
+    "*://*.duckduckgo.com/*",
+    "*://*.google.com/search*",
+    "*://*.ecosia.org/search*",
+    "*://*.bing.com/search*",
+    "*://*.search.brave.com/search*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
+  "author": "StasJS",
+  "minimum_chrome_version": "88",
+  "action": {
+    "default_popup": "Popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/favicon-16.png",
+      "32": "assets/icons/favicon-32.png",
+      "48": "assets/icons/favicon-48.png",
+      "128": "assets/icons/favicon-128.png"
+    },
+    "default_title": "SearchEngineSwitcher"
+  },
+  "background": {
+    "service_worker": "assets/js/background.bundle.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": [
+        "*://*.duckduckgo.com/*",
+        "*://*.google.com/search*",
+        "*://*.ecosia.org/search*",
+        "*://*.bing.com/search*",
+        "*://*.search.brave.com/search*"
+      ],
+      "css": [],
+      "js": [
+        "assets/js/contentScript.bundle.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/*"
+      ],
+      "matches": [
+        "*://*.duckduckgo.com/*",
+        "*://*.google.com/*",
+        "*://*.ecosia.org/*",
+        "*://*.bing.com/*",
+        "*://*.brave.com/*"
+      ]
+    }
+  ]
+}
