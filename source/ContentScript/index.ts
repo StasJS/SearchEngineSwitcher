@@ -7,6 +7,7 @@ import config, {
   DuckDuckGo,
   Bing,
   BraveSearch,
+  Yandex,
 } from '../utils/searchEngineConfig';
 import {getStorage} from '../utils/storage';
 
@@ -55,11 +56,12 @@ function createFlexContainer() {
 }
 
 function findSearchInput(
-  form: HTMLFormElement
+  form: HTMLFormElement,
+  name: string = 'q'
 ): HTMLInputElement | HTMLTextAreaElement | undefined {
   return (
     form.querySelector<HTMLInputElement | HTMLTextAreaElement>(
-      'input[name="q"], textarea[name="q"]'
+      `input[name="${name}"], textarea[name="${name}"]`
     ) ?? undefined
   );
 }
@@ -246,6 +248,54 @@ function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
   }
 }
 
+function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]) {
+  const getSearchForm = () =>
+    Array.from(document.forms).find((f) => f.action.endsWith('/search/'));
+
+  const applyDOMChanges = () => {
+    const searchForm = assertExists(
+      getSearchForm(),
+      'Cannot find Yandex search form'
+    );
+    const searchInput = assertExists(
+      findSearchInput(searchForm, 'text'),
+      'Cannot find Yandex search input'
+    );
+    const searchAreaContainer = assertExists(
+      searchInput.parentElement?.parentElement,
+      'Cannot find Yandex search input container'
+    );
+
+    if (
+      searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container'
+    ) {
+      const searchAreaContainerWrapper = createFlexContainer();
+      searchAreaContainerWrapper.id = 'searchengineswitcher-container';
+      searchAreaContainerWrapper.style.alignItems = 'center';
+      wrap(searchAreaContainer, searchAreaContainerWrapper);
+
+      const iconsContainer = createFlexContainer();
+      iconsContainer.style.alignItems = 'center';
+      searchAreaContainerWrapper.appendChild(iconsContainer);
+
+      for (const anchor of searchLinks) {
+        anchor.style.margin = 'auto';
+        anchor.style.padding = '4px 4px 0px 16px';
+        iconsContainer.appendChild(anchor);
+      }
+    }
+  };
+
+  const mutationObserver = new MutationObserver(() => {
+    if (!document.getElementById('searchengineswitcher-container')) {
+      applyDOMChanges();
+    }
+  });
+
+  applyDOMChanges();
+  mutationObserver.observe(document.body, {childList: true, subtree: true});
+}
+
 // ---------------------------------------------------------------------------
 // Matching & routing
 // ---------------------------------------------------------------------------
@@ -281,6 +331,8 @@ function injectHtml(
       return embedHtmlOnBing(searchLinks);
     case BraveSearch:
       return embedHtmlOnBrave(searchLinks);
+    case Yandex:
+      return embedHtmlOnYandex(searchLinks);
   }
 }
 
@@ -302,34 +354,36 @@ async function main() {
   const urlParams = new URLSearchParams(queryString);
 
   try {
-    if (urlParams.has('q')) {
-      const searchString = urlParams.get('q') || '';
-      const match = matchConfigOnHostName(
-        activeSearchEngines,
-        window.location.hostname
+    const match = matchConfigOnHostName(
+      activeSearchEngines,
+      window.location.hostname
+    );
+
+    if (!match) {
+      console.error(`Could not match ${window.location.hostname} to config`);
+      return;
+    }
+
+    const [currentSearchEngine, currentConfig] = match;
+    const queryParamName = currentConfig.queryParam;
+
+    if (urlParams.has(queryParamName)) {
+      const searchString = urlParams.get(queryParamName) || '';
+      const otherNames = activeSearchEngines.filter(
+        (se) => se !== currentSearchEngine
       );
-      if (match) {
-        const [currentSearchEngine] = match;
-        const otherNames = activeSearchEngines.filter(
-          (se) => se !== currentSearchEngine
+      const searchLinks = otherNames.map((otherName) => {
+        const otherConfig = config[otherName];
+        return createSearchLink(
+          otherConfig.id,
+          `${otherConfig.baseUrl}${searchString}`,
+          `Search '${searchString}' on ${otherConfig.displayName}`,
+          otherConfig.iconUrl
         );
-        const searchLinks = otherNames.map((otherName) => {
-          const otherConfig = config[otherName];
-          return createSearchLink(
-            otherConfig.id,
-            `${otherConfig.baseUrl}${searchString}`,
-            `Search '${searchString}' on ${otherConfig.displayName}`,
-            otherConfig.iconUrl
-          );
-        });
-        injectHtml(currentSearchEngine, searchLinks);
-      } else {
-        console.error(
-          `Could not match ${window.location.hostname} to config`
-        );
-      }
+      });
+      injectHtml(currentSearchEngine, searchLinks);
     } else {
-      console.error("URL parameters does not contain 'q'");
+      console.error(`URL parameters does not contain '${queryParamName}'`);
     }
   } catch (e) {
     console.error(e);
