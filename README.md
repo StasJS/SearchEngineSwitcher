@@ -6,6 +6,7 @@ The following search engines are supported currently:
  - DuckDuckGo
  - Ecosia
  - Bing
+ - Brave Search
 
 It contains a content_script, responsible for embedding links to the other enabled search engines when the user is browsing on one of the enabled search engines. Here's a picture of what the embedded links look like on Google, as an example. The extension adds clickable icons to the other search engines to the right of the search area.
 

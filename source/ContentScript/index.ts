@@ -6,6 +6,7 @@ import config, {
   Ecosia,
   DuckDuckGo,
   Bing,
+  BraveSearch,
 } from '../utils/searchEngineConfig';
 import {getStorage} from '../utils/storage';
 
@@ -82,6 +83,7 @@ function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]) {
   );
 
   const searchAreaContainerWrapper = createFlexContainer();
+  searchAreaContainerWrapper.id = 'searchengineswitcher-container';
   wrap(searchAreaContainer, searchAreaContainerWrapper);
 
   for (const anchor of searchLinks) {
@@ -95,26 +97,11 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
   const getSearchForm = () =>
     Array.from(document.forms).find((f) => f.action.endsWith('/search'));
 
-  const mutationObserver = new MutationObserver((mutationsList) => {
-    const searchForm = getSearchForm();
-    for (const mutation of mutationsList) {
-      if (
-        mutation.type === 'childList' &&
-        searchForm?.parentElement?.contains(mutation.target)
-      ) {
-        applyDOMChanges();
-      }
-    }
-  });
-
-  mutationObserver.observe(document.body, {childList: true, subtree: true});
-
   const applyDOMChanges = () => {
     const searchForm = assertExists(
       getSearchForm(),
       'Cannot find Ecosia search form'
     );
-
     const searchInput = assertExists(
       findSearchInput(searchForm),
       'Cannot find Ecosia search input'
@@ -124,10 +111,7 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
       'Cannot find Ecosia search input container'
     );
 
-    if (
-      searchAreaContainer.parentElement?.id !==
-      'searchengineswitcher-container'
-    ) {
+    if (searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container') {
       const searchAreaContainerWrapper = document.createElement('div');
       searchAreaContainerWrapper.style.display = 'inline-flex';
       searchAreaContainerWrapper.style.alignItems = 'center';
@@ -148,7 +132,14 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
     }
   };
 
+  const mutationObserver = new MutationObserver(() => {
+    if (!document.getElementById('searchengineswitcher-container')) {
+      applyDOMChanges();
+    }
+  });
+
   applyDOMChanges();
+  mutationObserver.observe(document.body, {childList: true, subtree: true});
 }
 
 function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
@@ -166,7 +157,9 @@ function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
   );
 
   const searchAreaContainerWrapper = createFlexContainer();
+  searchAreaContainerWrapper.id = 'searchengineswitcher-container';
   wrap(searchAreaContainer, searchAreaContainerWrapper);
+
   const iconsContainer = createFlexContainer();
   searchAreaContainerWrapper.appendChild(iconsContainer);
 
@@ -175,6 +168,51 @@ function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
     anchor.style.padding = '4px 4px 0px 16px';
     iconsContainer.appendChild(anchor);
   }
+}
+
+function embedHtmlOnBrave(searchLinks: HTMLAnchorElement[]) {
+  const getSearchForm = () =>
+    Array.from(document.forms).find((f) => f.action.endsWith('/search'));
+
+  const applyDOMChanges = () => {
+    const searchForm = assertExists(
+      getSearchForm(),
+      'Cannot find Brave Search form'
+    );
+    const searchInput = assertExists(
+      findSearchInput(searchForm),
+      'Cannot find Brave Search input'
+    );
+    const searchAreaContainer = assertExists(
+      searchInput.parentElement?.parentElement,
+      'Cannot find Brave Search input container'
+    );
+
+    if (searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container') {
+      const searchAreaContainerWrapper = createFlexContainer();
+      searchAreaContainerWrapper.id = 'searchengineswitcher-container';
+      wrap(searchAreaContainer, searchAreaContainerWrapper);
+
+      const iconsContainer = createFlexContainer();
+      iconsContainer.style.alignItems = 'center';
+      searchAreaContainerWrapper.appendChild(iconsContainer);
+
+      for (const anchor of searchLinks) {
+        anchor.style.margin = 'auto';
+        anchor.style.padding = '4px 4px 0px 16px';
+        iconsContainer.appendChild(anchor);
+      }
+    }
+  };
+
+  const mutationObserver = new MutationObserver(() => {
+    if (!document.getElementById('searchengineswitcher-container')) {
+      applyDOMChanges();
+    }
+  });
+
+  applyDOMChanges();
+  mutationObserver.observe(document.body, {childList: true, subtree: true});
 }
 
 function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
@@ -193,9 +231,11 @@ function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
 
   searchAreaContainer.style.paddingRight = 'unset';
   const searchAreaContainerWrapper = createFlexContainer();
+  searchAreaContainerWrapper.id = 'searchengineswitcher-container';
   wrap(searchAreaContainer, searchAreaContainerWrapper);
   // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Controlling_Ratios_of_Flex_Items_Along_the_Main_Ax
   searchAreaContainer.style.flex = '1 0 0';
+
   const iconsContainer = createFlexContainer();
   searchAreaContainerWrapper.appendChild(iconsContainer);
 
@@ -239,6 +279,8 @@ function injectHtml(
       return embedHtmlOnDDG(searchLinks);
     case Bing:
       return embedHtmlOnBing(searchLinks);
+    case BraveSearch:
+      return embedHtmlOnBrave(searchLinks);
   }
 }
 

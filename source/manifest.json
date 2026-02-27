@@ -21,7 +21,8 @@
     "*://*.duckduckgo.com/*",
     "*://*.google.com/search*",
     "*://*.ecosia.org/search*",
-    "*://*.bing.com/search*"
+    "*://*.bing.com/search*",
+    "*://*.search.brave.com/search*"
   ],
 
   "content_security_policy": {
@@ -68,7 +69,8 @@
         "*://*.duckduckgo.com/*",
         "*://*.google.com/search*",
         "*://*.ecosia.org/search*",
-        "*://*.bing.com/search*"
+        "*://*.bing.com/search*",
+        "*://*.search.brave.com/search*"
       ],
       "css": [],
       "js": ["assets/js/contentScript.bundle.js"]
@@ -82,7 +84,8 @@
         "*://*.duckduckgo.com/*",
         "*://*.google.com/*",
         "*://*.ecosia.org/*",
-        "*://*.bing.com/*"
+        "*://*.bing.com/*",
+        "*://*.brave.com/*"
       ]
     }
   ]

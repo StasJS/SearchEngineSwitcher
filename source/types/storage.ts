@@ -1,4 +1,4 @@
-import {Google, DuckDuckGo, Bing, Ecosia} from '../utils/searchEngineConfig';
+import {Google, DuckDuckGo, Bing, Ecosia, BraveSearch} from '../utils/searchEngineConfig';
 import type {SearchEngineName} from '../utils/searchEngineConfig';
 
 export interface SearchEngineStatus {
@@ -16,6 +16,7 @@ export const defaultStorage: StorageSchema = {
     BING: {enabled: true},
     ECOSIA: {enabled: true},
     DUCKDUCKGO: {enabled: true},
+    BRAVESEARCH: {enabled: true},
   },
-  searchEngineOrder: [Google, DuckDuckGo, Bing, Ecosia],
+  searchEngineOrder: [Google, DuckDuckGo, Bing, Ecosia, BraveSearch],
 };

@@ -9,8 +9,9 @@ export const Google = "GOOGLE" as const;
 export const Ecosia = "ECOSIA" as const;
 export const Bing = "BING" as const;
 export const DuckDuckGo = "DUCKDUCKGO" as const;
+export const BraveSearch = "BRAVESEARCH" as const;
 
-export type SearchEngineName = typeof Google | typeof Ecosia | typeof Bing | typeof DuckDuckGo;
+export type SearchEngineName = typeof Google | typeof Ecosia | typeof Bing | typeof DuckDuckGo | typeof BraveSearch;
 
 const config: Record<SearchEngineName, SearchEngineConfig> = {
 	GOOGLE: {
@@ -36,6 +37,12 @@ const config: Record<SearchEngineName, SearchEngineConfig> = {
 		iconUrl: new URL("https://duckduckgo.com/favicon.ico"),
 		id: "f3dfab76-5b65-4604-95ef-9e3cb7a8a59f",
 		displayName: "DuckDuckGo",
+	},
+	BRAVESEARCH: {
+		baseUrl: new URL("https://search.brave.com/search?q="),
+		iconUrl: new URL("https://brave.com/static-assets/images/brave-logo-sans-text.svg"),
+		id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		displayName: "Brave Search",
 	},
 };
 
