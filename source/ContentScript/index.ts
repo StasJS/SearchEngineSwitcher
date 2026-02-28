@@ -9,7 +9,7 @@ import config, {
   BraveSearch,
   Yandex,
 } from '../utils/searchEngineConfig';
-import {getStorage} from '../utils/storage';
+import { getStorage } from '../utils/storage';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -141,7 +141,7 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
   });
 
   applyDOMChanges();
-  mutationObserver.observe(document.body, {childList: true, subtree: true});
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
@@ -214,7 +214,7 @@ function embedHtmlOnBrave(searchLinks: HTMLAnchorElement[]) {
   });
 
   applyDOMChanges();
-  mutationObserver.observe(document.body, {childList: true, subtree: true});
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
@@ -257,30 +257,32 @@ function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]) {
       getSearchForm(),
       'Cannot find Yandex search form'
     );
-    const searchInput = assertExists(
-      findSearchInput(searchForm, 'text'),
-      'Cannot find Yandex search input'
-    );
-    const searchAreaContainer = assertExists(
-      searchInput.parentElement?.parentElement,
-      'Cannot find Yandex search input container'
-    );
 
     if (
-      searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container'
+      searchForm.parentElement?.id !== 'searchengineswitcher-container'
     ) {
-      const searchAreaContainerWrapper = createFlexContainer();
-      searchAreaContainerWrapper.id = 'searchengineswitcher-container';
-      searchAreaContainerWrapper.style.alignItems = 'center';
-      wrap(searchAreaContainer, searchAreaContainerWrapper);
+      const searchFormWrapper = createFlexContainer();
+      searchFormWrapper.id = 'searchengineswitcher-container';
+      searchFormWrapper.style.display = 'inline-flex';
+      searchFormWrapper.style.alignItems = 'center';
+      searchFormWrapper.style.width = '100%';
+
+      // Prevent the search bar from shrinking to accommodate icons
+      searchForm.style.flexShrink = '0';
+      searchForm.style.flexGrow = '1';
+
+      wrap(searchForm, searchFormWrapper);
 
       const iconsContainer = createFlexContainer();
       iconsContainer.style.alignItems = 'center';
-      searchAreaContainerWrapper.appendChild(iconsContainer);
+      iconsContainer.style.marginLeft = "-8px";
+      iconsContainer.style.marginRight = "16px";
+      searchFormWrapper.appendChild(iconsContainer);
 
       for (const anchor of searchLinks) {
         anchor.style.margin = 'auto';
         anchor.style.padding = '4px 4px 0px 16px';
+        anchor.style.flexShrink = '0';
         iconsContainer.appendChild(anchor);
       }
     }
@@ -293,7 +295,7 @@ function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]) {
   });
 
   applyDOMChanges();
-  mutationObserver.observe(document.body, {childList: true, subtree: true});
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 // ---------------------------------------------------------------------------
@@ -341,7 +343,7 @@ function injectHtml(
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const {searchEngineSettings, searchEngineOrder} = await getStorage([
+  const { searchEngineSettings, searchEngineOrder } = await getStorage([
     'searchEngineSettings',
     'searchEngineOrder',
   ]);
