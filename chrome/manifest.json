@@ -20,7 +20,8 @@
     "*://*.google.com/search*",
     "*://*.ecosia.org/search*",
     "*://*.bing.com/search*",
-    "*://*.search.brave.com/search*"
+    "*://*.search.brave.com/search*",
+    "*://*.yandex.com/search*"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self';"
@@ -49,7 +50,8 @@
         "*://*.google.com/search*",
         "*://*.ecosia.org/search*",
         "*://*.bing.com/search*",
-        "*://*.search.brave.com/search*"
+        "*://*.search.brave.com/search*",
+        "*://*.yandex.com/search*"
       ],
       "css": [],
       "js": [
@@ -67,7 +69,8 @@
         "*://*.google.com/*",
         "*://*.ecosia.org/*",
         "*://*.bing.com/*",
-        "*://*.brave.com/*"
+        "*://*.brave.com/*",
+        "*://*.yandex.com/*"
       ]
     }
   ]
