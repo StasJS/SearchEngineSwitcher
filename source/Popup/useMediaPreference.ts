@@ -22,7 +22,8 @@ function useMediaPreference(): MediaPreference | undefined {
     }
 
     const handlerFactory =
-      (mp: MediaPreference) => (event: MediaQueryListEvent) => {
+      (mp: MediaPreference) =>
+      (event: MediaQueryListEvent): void => {
         if (event.matches) {
           setMediaPreference(mp);
         }
@@ -33,7 +34,7 @@ function useMediaPreference(): MediaPreference | undefined {
     darkPreferenceQuery.addEventListener('change', darkPreferenceHandler);
     lightPreferenceQuery.addEventListener('change', lightPreferenceHandler);
 
-    return () => {
+    return (): void => {
       darkPreferenceQuery.removeEventListener('change', darkPreferenceHandler);
       lightPreferenceQuery.removeEventListener(
         'change',

@@ -15,7 +15,9 @@ export function useSearchEngineSettings(): SearchEngineSettings & {
   const [settings, setSettings] = useState<
     Record<SearchEngineName, SearchEngineStatus>
   >(defaultStorage.searchEngineSettings);
-  const [order, setOrder] = useState<SearchEngineName[]>(defaultStorage.searchEngineOrder);
+  const [order, setOrder] = useState<SearchEngineName[]>(
+    defaultStorage.searchEngineOrder
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

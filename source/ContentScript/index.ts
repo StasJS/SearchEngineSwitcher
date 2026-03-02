@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import config, {
   type SearchEngineConfig,
   type SearchEngineName,
@@ -9,7 +8,7 @@ import config, {
   BraveSearch,
   Yandex,
 } from '../utils/searchEngineConfig';
-import { getStorage } from '../utils/storage';
+import {getStorage} from '../utils/storage';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -25,7 +24,7 @@ function assertExists<T extends HTMLElement>(
   return element;
 }
 
-function wrap(intendedChild: HTMLElement, newParent: HTMLElement) {
+function wrap(intendedChild: HTMLElement, newParent: HTMLElement): void {
   intendedChild.parentNode?.insertBefore(newParent, intendedChild);
   newParent.appendChild(intendedChild);
 }
@@ -48,7 +47,7 @@ function createSearchLink(
   return anchor;
 }
 
-function createFlexContainer() {
+function createFlexContainer(): HTMLDivElement {
   const flexContainer = document.createElement('div');
   flexContainer.style.display = 'flex';
   flexContainer.style.flexDirection = 'row';
@@ -57,7 +56,7 @@ function createFlexContainer() {
 
 function findSearchInput(
   form: HTMLFormElement,
-  name: string = 'q'
+  name = 'q'
 ): HTMLInputElement | HTMLTextAreaElement | undefined {
   return (
     form.querySelector<HTMLInputElement | HTMLTextAreaElement>(
@@ -70,7 +69,7 @@ function findSearchInput(
 // Per-engine DOM injection
 // ---------------------------------------------------------------------------
 
-function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]) {
+function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]): void {
   const searchForm = assertExists(
     Array.from(document.forms).find((f) => f.action.endsWith('/search')),
     'Cannot find Google search form'
@@ -95,11 +94,11 @@ function embedHtmlOnGoogle(searchLinks: HTMLAnchorElement[]) {
   }
 }
 
-function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
-  const getSearchForm = () =>
+function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]): void {
+  const getSearchForm = (): HTMLFormElement | undefined =>
     Array.from(document.forms).find((f) => f.action.endsWith('/search'));
 
-  const applyDOMChanges = () => {
+  const applyDOMChanges = (): void => {
     const searchForm = assertExists(
       getSearchForm(),
       'Cannot find Ecosia search form'
@@ -113,7 +112,9 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
       'Cannot find Ecosia search input container'
     );
 
-    if (searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container') {
+    if (
+      searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container'
+    ) {
       const searchAreaContainerWrapper = document.createElement('div');
       searchAreaContainerWrapper.style.display = 'inline-flex';
       searchAreaContainerWrapper.style.alignItems = 'center';
@@ -141,10 +142,10 @@ function embedHtmlOnEcosia(searchLinks: HTMLAnchorElement[]) {
   });
 
   applyDOMChanges();
-  mutationObserver.observe(document.body, { childList: true, subtree: true });
+  mutationObserver.observe(document.body, {childList: true, subtree: true});
 }
 
-function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
+function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]): void {
   const searchForm = assertExists(
     Array.from(document.forms).find((f) => f.action.endsWith('/search')),
     'Cannot find Bing search form'
@@ -172,11 +173,11 @@ function embedHtmlOnBing(searchLinks: HTMLAnchorElement[]) {
   }
 }
 
-function embedHtmlOnBrave(searchLinks: HTMLAnchorElement[]) {
-  const getSearchForm = () =>
+function embedHtmlOnBrave(searchLinks: HTMLAnchorElement[]): void {
+  const getSearchForm = (): HTMLFormElement | undefined =>
     Array.from(document.forms).find((f) => f.action.endsWith('/search'));
 
-  const applyDOMChanges = () => {
+  const applyDOMChanges = (): void => {
     const searchForm = assertExists(
       getSearchForm(),
       'Cannot find Brave Search form'
@@ -190,7 +191,9 @@ function embedHtmlOnBrave(searchLinks: HTMLAnchorElement[]) {
       'Cannot find Brave Search input container'
     );
 
-    if (searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container') {
+    if (
+      searchAreaContainer.parentElement?.id !== 'searchengineswitcher-container'
+    ) {
       const searchAreaContainerWrapper = createFlexContainer();
       searchAreaContainerWrapper.id = 'searchengineswitcher-container';
       wrap(searchAreaContainer, searchAreaContainerWrapper);
@@ -214,10 +217,10 @@ function embedHtmlOnBrave(searchLinks: HTMLAnchorElement[]) {
   });
 
   applyDOMChanges();
-  mutationObserver.observe(document.body, { childList: true, subtree: true });
+  mutationObserver.observe(document.body, {childList: true, subtree: true});
 }
 
-function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
+function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]): void {
   const searchForm = assertExists(
     Array.from(document.forms).find((f) => f.action.endsWith('/')),
     'Cannot find DuckDuckGo search form'
@@ -248,19 +251,17 @@ function embedHtmlOnDDG(searchLinks: HTMLAnchorElement[]) {
   }
 }
 
-function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]) {
-  const getSearchForm = () =>
+function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]): void {
+  const getSearchForm = (): HTMLFormElement | undefined =>
     Array.from(document.forms).find((f) => f.action.endsWith('/search/'));
 
-  const applyDOMChanges = () => {
+  const applyDOMChanges = (): void => {
     const searchForm = assertExists(
       getSearchForm(),
       'Cannot find Yandex search form'
     );
 
-    if (
-      searchForm.parentElement?.id !== 'searchengineswitcher-container'
-    ) {
+    if (searchForm.parentElement?.id !== 'searchengineswitcher-container') {
       const searchFormWrapper = createFlexContainer();
       searchFormWrapper.id = 'searchengineswitcher-container';
       searchFormWrapper.style.display = 'inline-flex';
@@ -275,8 +276,8 @@ function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]) {
 
       const iconsContainer = createFlexContainer();
       iconsContainer.style.alignItems = 'center';
-      iconsContainer.style.marginLeft = "-8px";
-      iconsContainer.style.marginRight = "16px";
+      iconsContainer.style.marginLeft = '-8px';
+      iconsContainer.style.marginRight = '16px';
       searchFormWrapper.appendChild(iconsContainer);
 
       for (const anchor of searchLinks) {
@@ -295,7 +296,7 @@ function embedHtmlOnYandex(searchLinks: HTMLAnchorElement[]) {
   });
 
   applyDOMChanges();
-  mutationObserver.observe(document.body, { childList: true, subtree: true });
+  mutationObserver.observe(document.body, {childList: true, subtree: true});
 }
 
 // ---------------------------------------------------------------------------
@@ -306,7 +307,7 @@ function matchConfigOnHostName(
   searchEngineNames: SearchEngineName[],
   currentHostName: string
 ): [SearchEngineName, SearchEngineConfig] | null {
-  const trimWWWprefix = (s: string) => s.replace(/^www\./, '');
+  const trimWWWprefix = (s: string): string => s.replace(/^www\./, '');
   const match = Array.from(searchEngineNames).find(
     (s) =>
       trimWWWprefix(config[s].baseUrl.hostname) ===
@@ -321,7 +322,7 @@ function matchConfigOnHostName(
 function injectHtml(
   searchEngine: SearchEngineName,
   searchLinks: HTMLAnchorElement[]
-) {
+): void {
   switch (searchEngine) {
     case Google:
       return embedHtmlOnGoogle(searchLinks);
@@ -342,8 +343,8 @@ function injectHtml(
 // Entry point — read settings from storage and inject links
 // ---------------------------------------------------------------------------
 
-async function main() {
-  const { searchEngineSettings, searchEngineOrder } = await getStorage([
+async function main(): Promise<void> {
+  const {searchEngineSettings, searchEngineOrder} = await getStorage([
     'searchEngineSettings',
     'searchEngineOrder',
   ]);
