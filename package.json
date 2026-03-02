@@ -1,6 +1,6 @@
 {
   "name": "searchengineswitcher",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "description": "Helps you switch between search engines quickly and easily.",
   "private": true,
   "repository": "https://github.com/StasJS/SearchEngineSwitcher.git",
