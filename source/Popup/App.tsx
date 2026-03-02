@@ -3,7 +3,7 @@ import * as Icons from 'grommet-icons';
 import useMediaPreference from './useMediaPreference';
 import SearchEngineList from './features/searchEngines/SearchEngineList';
 
-const App = () => {
+const App: React.FC = () => {
   const mediaPreference = useMediaPreference();
 
   return (

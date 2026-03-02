@@ -28,12 +28,16 @@ export async function getAllStorage(): Promise<StorageSchema> {
   // completely override the defaults via a shallow spread).
   const searchEngineSettings: StorageSchema['searchEngineSettings'] = {
     ...defaultStorage.searchEngineSettings,
-    ...(result.searchEngineSettings as StorageSchema['searchEngineSettings'] | undefined),
+    ...(result.searchEngineSettings as
+      | StorageSchema['searchEngineSettings']
+      | undefined),
   };
 
   // Append any engines present in the defaults but missing from the stored
   // order (i.e. engines added in a newer version of the extension).
-  const storedOrder = result.searchEngineOrder as StorageSchema['searchEngineOrder'] | undefined;
+  const storedOrder = result.searchEngineOrder as
+    | StorageSchema['searchEngineOrder']
+    | undefined;
   const newEngines = defaultStorage.searchEngineOrder.filter(
     (e) => !storedOrder?.includes(e)
   );

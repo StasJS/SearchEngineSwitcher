@@ -2,9 +2,8 @@ import {Box} from 'grommet';
 import SearchEngineItem from './SearchEngineItem';
 import {useSearchEngineSettings} from './useSearchEngineSettings';
 
-const SearchEngineList = () => {
-  const {settings, order, loading, toggleEngine} =
-    useSearchEngineSettings();
+const SearchEngineList: React.FC = () => {
+  const {settings, order, loading, toggleEngine} = useSearchEngineSettings();
 
   if (loading) {
     return null;

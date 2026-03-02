@@ -1,4 +1,11 @@
-import {Google, DuckDuckGo, Bing, Ecosia, BraveSearch, Yandex} from '../utils/searchEngineConfig';
+import {
+  Google,
+  DuckDuckGo,
+  Bing,
+  Ecosia,
+  BraveSearch,
+  Yandex,
+} from '../utils/searchEngineConfig';
 import type {SearchEngineName} from '../utils/searchEngineConfig';
 
 export interface SearchEngineStatus {
